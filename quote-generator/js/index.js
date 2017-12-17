@@ -1,18 +1,27 @@
 
 $(document).ready(function(){
+	var quote;
+	var author;
+  $("#getQuote").on("click",function(){
 
-	
+		//Make request to api
+		$.ajax({
+				url:'http://quotes.stormconsultancy.co.uk/random.json',
+		}).done(function(ranQ){
+				quote = ranQ.quote;
+				author = ranQ.author;
+				$("#quote-content").html(`
+						<p>${ranQ.quote}</p>
+						<p>- ${ranQ.author}</p>
+				`);
+		});
 
-	$("#getQuote").on("click", function(){
-     		$.getJSON("http://quotes.stormconsultancy.co.uk/random.json", function(data) {
 
-        			$("#quote-content").html("<h4><strong>"+data.quote+"</strong></h4>"+"<p>"+ data.author+"</p>");
+	});
 
-    		});
-    });
-
-
-
+	$("#tweet").on("click",function() {
+			window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(quote + ' - ' + author));
+	});
 
 
 });
